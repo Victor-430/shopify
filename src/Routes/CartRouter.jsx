@@ -5,7 +5,7 @@ import { ErrorPage } from "../Pages/ErrorPage";
 import { PageNotFound } from "@/Pages/PageNotFound";
 import { Collections } from "@/Pages/Collections";
 import { Payment } from "@/Pages/Payment";
-import { CheckoutSucess } from "@/Pages/checkoutSucess";
+import { CheckoutSucess } from "@/Pages/CheckoutSucess";
 import { Login } from "../Pages/Login";
 import { AuthProvider } from "../Auth/AuthProvider";
 import { ProtectedRoute } from "./ProtectedRoute";

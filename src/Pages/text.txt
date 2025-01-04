@@ -1,0 +1,12 @@
+I learnt:
+1. Tailwind css
+2. Shadcn-ui
+3. How to display a spinner before the components load
+4. custom hook
+5. How to fetch an Api
+6. Mobile Responsiveness
+
+debugging was quite a lot but it improved my debuging skill. i can now quickly identify bugs and resolve them
+
+I need help with the cart component and profile component. ie.
+how to close the cart component when i click on the profile div and vice versa and how to close each component when i click outside the div
