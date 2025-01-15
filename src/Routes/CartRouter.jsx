@@ -10,6 +10,8 @@ import { Login } from "../Pages/Login";
 import { AuthProvider } from "../Auth/AuthProvider";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { Men } from "@/Pages/Men";
+import { ProductDescription } from "@/Components/ProductDescription";
+import { Category } from "@/Pages/Category";
 
 export const router = createBrowserRouter(
   [
@@ -34,11 +36,11 @@ export const router = createBrowserRouter(
 
         {
           path: "collections",
-          element: (
-            <ProtectedRoute>
-              <Collections />
-            </ProtectedRoute>
-          ),
+          element: <Collections />,
+        },
+        {
+          path: "collections/:category",
+          element: <Category />,
         },
         {
           path: "*",
@@ -63,6 +65,10 @@ export const router = createBrowserRouter(
         {
           path: "men",
           element: <Men />,
+        },
+        {
+          path: "products/:id",
+          element: <ProductDescription />,
         },
       ],
     },

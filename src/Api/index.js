@@ -12,24 +12,34 @@ export const allproducts = async () => {
   }
 };
 
-export const categoryList = async () => {
+export const singleProduct = async (id) => {
   try {
-    const data = await fetch(`${BaseUrl}${endpoints.categories}`);
+    const data = await fetch(`${BaseUrl}${endpoints.allproducts}/${id}`);
     const res = await data.json();
-    console.log(res);
+    return res;
   } catch (error) {
     console.error(error);
   }
 };
 
-// export const mensCategory = async () => {
-//   try {
-//     const data = await fetch(
-//       `${BaseUrl}${endpoints.allproducts}${endpoints.category.mensCategory}`
-//     );
-//     // const res = await data.json();
-//     console.log(data);
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
+export const categoryList = async () => {
+  try {
+    const data = await fetch(`${BaseUrl}${endpoints.categories}`);
+    const res = await data.json();
+    return res;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const categoryProducts = async (categoryName) => {
+  try {
+    const data = await fetch(
+      `${BaseUrl}${endpoints.allproducts}/category/${categoryName}`
+    );
+    const res = await data.json();
+    return res?.products;
+  } catch (error) {
+    console.error(error);
+  }
+};

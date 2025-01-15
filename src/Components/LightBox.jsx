@@ -1,82 +1,28 @@
-// export const LightBox = ({
-//   product1,
-//   product1_thumbNail,
-//   product2_thumbNail,
-//   product3_thumbNail,
-//   product4_thumbNail,
-// }) => {
-//   return (
-//     <div className="grid max-w-5xl">
-//       <main className="">
-//         <div className="max-w-[350px]">
-//           <img
-//             className="w-[350px] h-[350px] rounded-2xl"
-//             src={product1}
-//             alt="product1"
-//           />
-//           <div className=" flex gap-5 my-8">
-//             <img
-//               style={{ width: "72px", height: "72px", borderRadius: "10px" }}
-//               src={product1_thumbNail}
-//               alt="product1thumbnail"
-//             />
-//             <img
-//               style={{ width: "72px", height: "72px", borderRadius: "10px" }}
-//               src={product2_thumbNail}
-//               alt="product2thumbnail"
-//             />
-//             <img
-//               style={{ width: "72px", height: "72px", borderRadius: "10px" }}
-//               src={product3_thumbNail}
-//               alt="product3thumbNail"
-//             />
-//             <img
-//               style={{ width: "72px", height: "72px", borderRadius: "10px" }}
-//               src={product4_thumbNail}
-//               alt="product4thumbNail"
-//             />
-//           </div>
-//         </div>
-//       </main>
-//     </div>
-//   );
-// };
-
 import { useState } from "react";
 import CloseOverlay from "../Assets/img/icon-close.svg";
 import NextBtn from "../Assets/img/icon-next.svg";
 import PrevBtn from "../Assets/img/icon-previous.svg";
 
-export const LightBox = ({
-  product1,
-  product2,
-  product3,
-  product4,
-  product1_thumbNail,
-  product2_thumbNail,
-  product3_thumbNail,
-  product4_thumbNail,
-}) => {
-  const [selectedImage, setSelectedImage] = useState(product1);
+export const LightBox = ({ images }) => {
+  const [selectedImage, setSelectedImage] = useState(images[0]);
   const [selectedThumb, setSelectedThumb] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);
 
-  const thumbnails = [
-    { src: product1_thumbNail, alt: "product1thumbnail", main: product1 },
-    { src: product2_thumbNail, alt: "product2thumbnail", main: product2 },
-    { src: product3_thumbNail, alt: "product3thumbnail", main: product3 },
-    { src: product4_thumbNail, alt: "product4thumbnail", main: product4 },
-  ];
+  // const thumbnails = [
+  //   { src: product1_thumbNail, alt: "product1thumbnail", main: product1 },
+  //   { src: product2_thumbNail, alt: "product2thumbnail", main: product2 },
+  //   { src: product3_thumbNail, alt: "product3thumbnail", main: product3 },
+  //   { src: product4_thumbNail, alt: "product4thumbnail", main: product4 },
+  // ];
 
   const navigateImage = (direction) => {
     let newIndex = selectedThumb;
     if (direction === "next") {
-      newIndex = (selectedThumb + 1) % thumbnails.length;
+      newIndex = (selectedThumb + 1) % images?.length;
     } else {
-      newIndex =
-        selectedThumb === 0 ? thumbnails.length - 1 : selectedThumb - 1;
+      newIndex = selectedThumb === 0 ? images?.length - 1 : selectedThumb - 1;
     }
-    setSelectedImage(thumbnails[newIndex].main);
+    setSelectedImage(images[newIndex]);
     setSelectedThumb(newIndex);
   };
 
@@ -118,11 +64,11 @@ export const LightBox = ({
       </div>
       {/* Thumbnails Container */}
       <div className="grid grid-cols-4 gap-4 max-sm:hidden  sm:mt-8">
-        {thumbnails.map((thumb, index) => (
+        {images?.map((img, index) => (
           <button
             key={index}
             onClick={() => {
-              setSelectedImage(thumb.main);
+              setSelectedImage(img);
               setSelectedThumb(index);
             }}
             className={`relative aspect-square rounded-xl overflow-hidden
@@ -135,8 +81,8 @@ export const LightBox = ({
           >
             <img
               className="w-full h-full object-cover"
-              src={thumb.src}
-              alt={thumb.alt}
+              src={img}
+              // alt={thumb.alt}
             />
             {selectedThumb === index && (
               <div className="absolute inset-0 bg-white/40" />
@@ -193,12 +139,12 @@ export const LightBox = ({
 
           {/* Thumbnails at Bottom */}
           <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-4">
-            {thumbnails.map((thumb, index) => (
+            {images?.map((img, index) => (
               <button
                 key={index}
                 onClick={(e) => {
                   e.stopPropagation();
-                  setSelectedImage(thumb.main);
+                  setSelectedImage(img);
                   setSelectedThumb(index);
                 }}
                 className={`w-20 h-20 rounded-lg overflow-hidden ${
@@ -209,8 +155,8 @@ export const LightBox = ({
               >
                 <img
                   className="w-full h-full object-cover"
-                  src={thumb.src}
-                  alt={thumb.alt}
+                  src={img}
+                  // alt={thumb.alt}
                 />
               </button>
             ))}

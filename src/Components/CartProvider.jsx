@@ -24,7 +24,7 @@ export const CartProvider = ({ children }) => {
         (item) => item.id === product.id
       );
       if (existingItemId > -1) {
-        // if item exist, create a new array and update quatity
+        // if item exist, create a new array and update quantity
         const updatedItems = [...prevItems];
         updatedItems[existingItemId] = {
           ...updatedItems[existingItemId],
