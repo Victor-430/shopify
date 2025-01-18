@@ -9,9 +9,12 @@ import { CheckoutSucess } from "@/Pages/CheckoutSucess";
 import { Login } from "../Pages/Login";
 import { AuthProvider } from "../Auth/AuthProvider";
 import { ProtectedRoute } from "./ProtectedRoute";
-import { Men } from "@/Pages/Men";
+import { MenCollections } from "@/Pages/MenCollections";
 import { ProductDescription } from "@/Components/ProductDescription";
 import { Category } from "@/Pages/Category";
+import { MenCategory } from "@/Pages/MenCategory";
+import { WomenCategory } from "../Pages/WomenCategory";
+import { WomenCollection } from "../Pages/WomenCollection";
 
 export const router = createBrowserRouter(
   [
@@ -64,8 +67,18 @@ export const router = createBrowserRouter(
         },
         {
           path: "men",
-          element: <Men />,
+          element: <MenCollections />,
         },
+        {
+          path: "men/:category",
+          element: <MenCategory />,
+        },
+        {
+          path: "women",
+          element: <WomenCollection />,
+        },
+        { path: "women/:category", element: <WomenCategory /> },
+
         {
           path: "products/:id",
           element: <ProductDescription />,

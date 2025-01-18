@@ -17,7 +17,9 @@ export const Category = () => {
 
   return (
     <div>
-      <h2 className="border-b font-kumbh tracking-wide">{category}</h2>
+      <h2 className="border-b font-kumbh font-bold text-xl text-center tracking-wide p-6 m-4 capitalize">
+        {category}
+      </h2>
       <div className="grid grid-cols-2 p-4 gap-[15px] sm:grid-cols-4">
         {products?.map((product) => (
           <ProductItems product={product} key={product.id} />

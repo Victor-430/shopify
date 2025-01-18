@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./Routes/CartRouter";
-import { HandleOutsideClick } from "./Components/utils/HandleOutsideClick";
+// import { HandleOutsideClick } from "./Components/utils/HandleOutsideClick";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
