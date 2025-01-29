@@ -8,7 +8,7 @@ import {
   CreditCard,
 } from "lucide-react";
 
-export const ProfileMenuItems = [
+export const ProfileMenuItems =(handleSignout,navigate) => [
   {
     icon: <User className="mr-2 h-4 w-4" />,
     text: "Profile",
@@ -27,6 +27,7 @@ export const ProfileMenuItems = [
     icon: <Heart className="mr-2 h-4 w-4" />,
     text: "Wishlist",
     action: () => {
+      navigate("/wishList");
       console.log("View Wishlist");
     },
   },
@@ -55,6 +56,7 @@ export const ProfileMenuItems = [
     icon: <LogOut className="mr-2 h-4 w-4 text-red-500" />,
     text: "Log Out",
     action: () => {
+      handleSignout();
       console.log("Log0ut");
     },
   },

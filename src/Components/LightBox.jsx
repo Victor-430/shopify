@@ -8,13 +8,6 @@ export const LightBox = ({ images }) => {
   const [selectedThumb, setSelectedThumb] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);
 
-  // const thumbnails = [
-  //   { src: product1_thumbNail, alt: "product1thumbnail", main: product1 },
-  //   { src: product2_thumbNail, alt: "product2thumbnail", main: product2 },
-  //   { src: product3_thumbNail, alt: "product3thumbnail", main: product3 },
-  //   { src: product4_thumbNail, alt: "product4thumbnail", main: product4 },
-  // ];
-
   const navigateImage = (direction) => {
     let newIndex = selectedThumb;
     if (direction === "next") {
@@ -112,7 +105,7 @@ export const LightBox = ({ images }) => {
             <img
               src={selectedImage}
               alt="Zoomed product"
-              className="max-h-[80vh]  w-full rounded-lg object-contain"
+              className="max-h-[80vh] w-full rounded-lg object-contain"
             />
 
             {/* Navigation Buttons */}

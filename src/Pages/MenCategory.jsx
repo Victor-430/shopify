@@ -1,35 +1,41 @@
-import { categoryProducts } from "@/Api";
-import { ProductItems } from "@/Components/ProductItems";
-import { LoadingSpinner } from "@/Components/LoadingSpinner";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+
+import { categoryProducts } from "@/Api";
+import { FetchError } from "@/Api/FetchError";
+
+import { ProductItems } from "@/Components/ProductItems";
+import { LoadingSpinner } from "@/Components/LoadingSpinner";
 
 export const MenCategory = () => {
   const [mensProduct, setMensProduct] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+
   const { category } = useParams();
 
   console.log(category);
 
   useEffect(() => {
-    setIsLoading(true);
-
-    try {
-      const fetchMenProduct = async () => {
+    const fetchMenProduct = async () => {
+      try {
+        setIsLoading(true);
         const data = await categoryProducts(category);
+        if (!data) {
+          setError("An Error Occured");
+          return;
+        }
         setMensProduct(data);
-        setError(null);
         console.log(data);
-      };
+      } catch (error) {
+        setError(`Failed to load products for ${category}. Please try again.`);
+        console.error(`An error occured : ${error}`);
+      } finally {
+        setTimeout(() => setIsLoading(false), 2000);
+      }
+    };
 
-      fetchMenProduct();
-    } catch (error) {
-      setError(`Failed to load products for ${category}. Please try again.`);
-      console.error(`An error occured : ${error}`);
-    } finally {
-      setIsLoading(false);
-    }
+    fetchMenProduct();
   }, [category]);
 
   if (isLoading) {
@@ -37,11 +43,7 @@ export const MenCategory = () => {
   }
 
   if (error) {
-    return (
-      <div className="font-kumbh font-normal text-lg text-center tetx-red-500 p-8">
-        {error}
-      </div>
-    );
+    return <FetchError error={error} />;
   }
 
   return (

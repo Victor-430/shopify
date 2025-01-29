@@ -1,38 +1,57 @@
 import { useEffect, useState } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { AddToCart } from "./AddToCart";
 import { CartCounter } from "./CartCounter";
 import { LightBox } from "./LightBox";
-import { Toaster } from "./ui/toaster";
 
 import { singleProduct } from "@/Api";
 import { LoadingSpinner } from "./LoadingSpinner";
+import { FetchError } from "@/Api/FetchError";
 
 export const ProductDescription = () => {
-  const [product, setProduct] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [product, setProduct] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   const { id } = useParams();
 
   useEffect(() => {
     const fetchProduct = async (id) => {
-      const data = await singleProduct(id);
-      if (!data) <Navigate to="*" replace />;
-      setProduct(data);
-      setTimeout(() => setLoading(false), 2000);
+      try {
+        setIsLoading(true);
+        const data = await singleProduct(id);
+        console.log("Fetched data:", data);
+
+        if (!data || !data.title || !data.price || !data.images) {
+          setError("Product Not found");
+          return;
+        }
+
+        setProduct(data);
+      } catch (error) {
+        console.error(`Error fetching product`, error);
+        setError("Error fetching product");
+      } finally {
+        setTimeout(() => setIsLoading(false), 2000);
+      }
     };
+
     fetchProduct(id);
   }, [id]);
 
+  if (error) {
+    return <FetchError error={error} />;
+  }
+
   return (
     <>
-      {loading ? (
+      {isLoading ? (
         <div className="flex flex-1 items-center justify-center">
           <LoadingSpinner />
         </div>
       ) : (
         <div className="overflow-x-hidden lg:container mx-auto  px-0 sm:px-4 md:px-8 lg:px-12">
-          <Toaster />
           <div className="md:grid md:grid-cols-2 md:gap-8  lg:gap-24 lg:max-w-7xl mx-auto items-start py-0 sm:py-8 md:py-12">
             {product?.images && <LightBox images={product?.images} />}
             <section className="px-6 lg:mt-15 xl:mt-20">
@@ -61,8 +80,13 @@ export const ProductDescription = () => {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3 mt-5">
-                <CartCounter />
-                <AddToCart />
+                <CartCounter product={product} />
+                <AddToCart
+                  id={product?.id}
+                  images={product?.images}
+                  price={product?.price}
+                  title={product?.title}
+                />
               </div>
             </section>
           </div>

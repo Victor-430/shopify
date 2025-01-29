@@ -1,8 +1,10 @@
 import { useState } from "react";
+
 import { CreditCard, Lock, AlertCircle, ArrowLeft } from "lucide-react";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
-import { LoadingSpinner } from "@/Components/LoadingSpinner";
+
 import { useToast } from "@/hooks/use-toast";
+import { useCart } from "@/Components/CartProvider";
 
 export const Payment = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -17,6 +19,7 @@ export const Payment = () => {
     cvc: "",
     nameOnCard: "",
   });
+  const { clearCart } = useCart();
 
   const { cartTotal } = location.state || {};
   if (!location.state) {
@@ -98,10 +101,11 @@ export const Payment = () => {
     setIsLoading(true);
     try {
       toast({
-        title: "Processing Payment",
-        description: "Please wait while we process your payment...",
+        title: "Order Successful",
+        description: "Thank ypu for your purchase",
       });
       await new Promise((resolve) => setTimeout(resolve, 2000));
+      clearCart();
       navigate("/checkout-success");
     } catch (error) {
       toast({
@@ -156,7 +160,7 @@ export const Payment = () => {
               </div>
               <div className="border-t border-gray-700 mt-3 pt-3 flex justify-between font-medium">
                 <span>Total</span>
-                <span>${cartTotal + 9.9}</span>
+                <span>${(cartTotal + 9.9).toFixed(2)}</span>
               </div>
             </div>
 
@@ -303,14 +307,9 @@ export const Payment = () => {
               className="relative w-full bg-orange-500 text-white py-4 px-6 rounded-lg hover:bg-orange-400 transition-colors font-medium"
             >
               {isLoading ? (
-                <>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <LoadingSpinner />
-                  </div>
-                  <span className="invisible">Processing ...</span>
-                </>
+                <span className="visible">Processing ...</span>
               ) : (
-                `Pay ${cartTotal}`
+                `Pay ${(cartTotal + 9.9).toFixed(2)}`
               )}
             </button>
 

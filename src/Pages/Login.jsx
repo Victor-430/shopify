@@ -1,9 +1,41 @@
+// import { initializeApp } from "firebase/app";
+// import { getAnalytics } from "firebase/analytics";
+// import {
+//   getAuth,
+//   signInWithEmailAndPassword,
+//   createUserWithEmailAndPassword,
+//   updateProfile,
+// } from "firebase/auth";
+
+// const firebaseConfig = {
+//   apiKey: "AIzaSyAxXjyOSd38yVzLYDWhaBKelE2ZB2YmBoI",
+//   authDomain: "shopify-412cd.firebaseapp.com",
+//   projectId: "shopify-412cd",
+//   storageBucket: "shopify-412cd.firebasestorage.app",
+//   messagingSenderId: "228304121055",
+//   appId: "1:228304121055:web:bdef4998c0a9631aec4d6a",
+//   measurementId: "G-2MYY4PMVGP",
+// };
+
+// // Initialize Firebase
+// const app = initializeApp(firebaseConfig);
+// const auth = getAuth(app);
+// const analytics = getAnalytics(app);
+
+import { auth } from "../Config/Firebase";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  sendPasswordResetEmail,
+} from "firebase/auth";
+
 import { useState } from "react";
 import { Lock, User, Mail } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../Auth/AuthProvider";
 
 export const Login = () => {
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     email: "",
@@ -12,7 +44,16 @@ export const Login = () => {
   });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const { login, register } = useAuth();
+
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    try {
+      await sendPasswordResetEmail(auth, formData.email);
+      setError("Password reset has been sent to email");
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,26 +70,87 @@ export const Login = () => {
     setError(null);
     try {
       if (isLogin) {
-        // Login logic
-        await login({
-          email: formData.email,
-          password: formData.password,
-        });
+        // Login
+        await signInWithEmailAndPassword(
+          auth,
+          formData.email,
+          formData.password
+        );
+
         navigate("/");
       } else {
-        // Registration logic
-        await register({
-          email: formData.email,
-          password: formData.password,
-          username: formData.username,
-        });
+        // Registration
+        const { user } = await createUserWithEmailAndPassword(
+          auth,
+          formData.email,
+          formData.password
+        );
+        await updateProfile(user, { displayName: formData.username });
         navigate("/");
       }
     } catch (error) {
-      setError(error.message || "Authentication failed");
-      console.error("Authentication failed", error);
+      const errorMessage =
+        {
+          "auth/user-not-found": "User not found",
+          "auth/wrong-password": "Invalid password",
+          "auth/invalid-email": "Invalid Email",
+          "auth/invalid-credential": "Invalid password or Email",
+          "auth/email-already-in-use": "Email already registered",
+          "auth/weak-password": "Password should be at least 6 characters",
+          "auth/network-request-failed": "Network Error",
+        }[error.code] || error.message;
+      setError(errorMessage);
+      console.error("Authentication error", error);
     }
   };
+
+  if (isForgotPassword) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-200 p-4">
+        <div className="w-full max-w-md bg-white/30 backdrop-blur-lg border border-white/20 shadow-2xl rounded-2xl p-8">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
+            Reset Password
+          </h2>
+
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleForgotPassword} className="space-y-4">
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full pl-10 p-3 bg-white/50 backdrop-blur-sm border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 transition-colors"
+            >
+              Send Reset Email
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIsForgotPassword(false)}
+              className="w-full text-blue-700 hover:underline mt-2"
+            >
+              Back to Login
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-200 p-4">
@@ -81,6 +183,7 @@ export const Login = () => {
                   placeholder="Username"
                   value={formData.username}
                   onChange={handleChange}
+                  autoComplete="username"
                   className="w-full pl-10 p-3 bg-white/50 backdrop-blur-sm border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
@@ -95,6 +198,7 @@ export const Login = () => {
                 placeholder="Email"
                 value={formData.email}
                 onChange={handleChange}
+                autoComplete="email"
                 className="w-full pl-10 p-3 bg-white/50 backdrop-blur-sm border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
@@ -109,6 +213,7 @@ export const Login = () => {
                 value={formData.password}
                 onChange={handleChange}
                 aria-current={true}
+                autoComplete="current-password"
                 className="w-full pl-10 p-3 bg-white/50 backdrop-blur-sm border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
@@ -122,7 +227,16 @@ export const Login = () => {
             </button>
           </form>
 
-          <div className="text-center mt-4">
+          <div className="text-center mt-4 space-y-4 ">
+            {isLogin && (
+              <button
+                onClick={() => setIsForgotPassword(true)}
+                className="text-blue-700 pr-3 hover:underline"
+              >
+                Forgot Password?
+              </button>
+            )}
+
             <button
               onClick={() => {
                 setIsLogin(!isLogin);

@@ -7,7 +7,6 @@ import { Collections } from "@/Pages/Collections";
 import { Payment } from "@/Pages/Payment";
 import { CheckoutSucess } from "@/Pages/CheckoutSucess";
 import { Login } from "../Pages/Login";
-import { AuthProvider } from "../Auth/AuthProvider";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { MenCollections } from "@/Pages/MenCollections";
 import { ProductDescription } from "@/Components/ProductDescription";
@@ -15,15 +14,17 @@ import { Category } from "@/Pages/Category";
 import { MenCategory } from "@/Pages/MenCategory";
 import { WomenCategory } from "../Pages/WomenCategory";
 import { WomenCollection } from "../Pages/WomenCollection";
+import { WishListItems } from "@/Components/WishListItems";
+import { About } from "@/Pages/About";
 
 export const router = createBrowserRouter(
   [
     {
       path: "/",
       element: (
-        <AuthProvider>
+        <ProtectedRoute>
           <NavBar />
-        </AuthProvider>
+        </ProtectedRoute>
       ),
 
       errorElement: <ErrorPage />,
@@ -32,11 +33,15 @@ export const router = createBrowserRouter(
           index: true,
           element: <Home />,
         },
-        {
-          path: "login",
-          element: <Login />,
-        },
 
+        {
+          path: "payment",
+          element: <Payment />,
+        },
+        {
+          path: "checkout-success",
+          element: <CheckoutSucess />,
+        },
         {
           path: "collections",
           element: <Collections />,
@@ -44,26 +49,6 @@ export const router = createBrowserRouter(
         {
           path: "collections/:category",
           element: <Category />,
-        },
-        {
-          path: "*",
-          element: <PageNotFound />,
-        },
-        {
-          path: "payment",
-          element: (
-            <ProtectedRoute>
-              <Payment />
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: "checkout-success",
-          element: (
-            <ProtectedRoute>
-              <CheckoutSucess />
-            </ProtectedRoute>
-          ),
         },
         {
           path: "men",
@@ -83,7 +68,23 @@ export const router = createBrowserRouter(
           path: "products/:id",
           element: <ProductDescription />,
         },
+        {
+          path: "wishList",
+          element: <WishListItems />,
+        },
+        {
+          path: "about",
+          element: <About />,
+        },
+        {
+          path: "*",
+          element: <PageNotFound />,
+        },
       ],
+    },
+    {
+      path: "login",
+      element: <Login />,
     },
   ],
 

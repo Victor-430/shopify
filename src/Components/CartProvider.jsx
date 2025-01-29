@@ -9,63 +9,94 @@ export const CartProvider = ({ children }) => {
     return savedCart ? JSON.parse(savedCart) : [];
   });
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Save Cart Items to Local Storage
   useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  const addToCart = (product) => {
+  const addToCart = async (product) => {
     if (!product) return;
-    setCartItems((prevItems) => {
-      if (!Array.isArray(prevItems)) return [];
-      // checks if item exists
-      const existingItemId = prevItems.findIndex(
-        (item) => item.id === product.id
-      );
-      if (existingItemId > -1) {
-        // if item exist, create a new array and update quantity
-        const updatedItems = [...prevItems];
-        updatedItems[existingItemId] = {
-          ...updatedItems[existingItemId],
-          quantity: updatedItems[existingItemId].quantity + 1,
-        };
-        return updatedItems;
+
+    setIsLoading(true);
+    setIsCartOpen(true);
+
+    try {
+      await new Promise((res) => setTimeout(res, 100));
+      setCartItems((prevItems) => {
+        if (!Array.isArray(prevItems)) return [];
+        // checks if item exists
+        const existingItemId = prevItems.findIndex(
+          (item) => item.id === product.id
+        );
+        if (existingItemId > -1) {
+          // if item exist, create a new array and update quantity
+          const updatedItems = [...prevItems];
+          updatedItems[existingItemId] = {
+            ...updatedItems[existingItemId],
+            quantity: updatedItems[existingItemId].quantity + 1,
+          };
+          return updatedItems;
+        }
+
+        // if item does not exist add new item
+        return [...prevItems, { ...product, quantity: 1 }];
+      });
+    } catch (error) {
+      console.error(`Error adding to cart:`, error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const removeFromCart = async (productId) => {
+    setIsLoading(true);
+    try {
+      await new Promise((res) => setTimeout(res, 100));
+      setCartItems((prevItems) => {
+        return prevItems.filter((item) => item.id !== productId);
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const clearCart = async () => {
+    setIsLoading(true);
+    try {
+      await new Promise((res) => setTimeout(res, 100));
+      setCartItems([]);
+      localStorage.removeItem("cartItems");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const updateQuantity = async (productId, newQuantity) => {
+    setIsLoading(true);
+    try {
+      await new Promise((res) => setTimeout(res, 100));
+
+      if (newQuantity <= 0) {
+        removeFromCart(productId);
+        return;
       }
 
-      // if item does not exist add new item
-      return [...prevItems, { ...product, quantity: 1 }];
-    });
-    setIsCartOpen(true);
-  };
-
-  const removeFromCart = (productId) => {
-    setCartItems((prevItems) => {
-      return prevItems.filter((item) => item.id !== productId);
-    });
-  };
-
-  const updateQuantity = (productId, newQuantity) => {
-    if (newQuantity <= 0) {
-      removeFromCart(productId);
-      return;
+      setCartItems((prevItems) => {
+        return prevItems
+          .map((item) =>
+            item.id === productId
+              ? { ...item, quantity: Math.max(0, newQuantity) }
+              : item
+          )
+          .filter((item) => item.quantity > 0);
+      });
+    } finally {
+      setIsLoading(false);
     }
-
-    setCartItems((prevItems) => {
-      return prevItems
-        .map((item) =>
-          item.id === productId
-            ? { ...item, quantity: Math.max(0, newQuantity) }
-            : item
-        )
-        .filter((item) => item.quantity > 0);
-    });
   };
 
-  const clearCart = () => {
-    setCartItems([]);
-    localStorage.removeItem("cartItems");
-  };
   const calculateTotal = () => {
     if (!cartItems || cartItems.length === 0) return 0;
     return cartItems.reduce((sum, item) => {
@@ -76,6 +107,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const value = {
+    isLoading,
     isCartOpen,
     setIsCartOpen,
     addToCart,

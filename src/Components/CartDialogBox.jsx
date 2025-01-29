@@ -4,6 +4,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
+  DialogDescription,
 } from "./ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useCart } from "./CartProvider";
@@ -30,7 +31,7 @@ export const CartDialog = () => {
       title: "Cart updated",
       description: "Your items have been added to the cart",
       variant: "success",
-      className: "bg-orange-500 hover:bg-orange-200",
+      className: "bg-black text-white font-kumbh hover:bg-orange-200",
     });
     setIsCartOpen(false);
   };
@@ -40,6 +41,9 @@ export const CartDialog = () => {
       <DialogContent className="sm:max-w-[425px] bg-white">
         <DialogHeader>
           <DialogTitle>Shopping Cart</DialogTitle>
+          <DialogDescription>
+            Review and manage your selected items
+          </DialogDescription>
         </DialogHeader>
         <div className="max-h-[60vh] overflow-y-auto">
           {cartItems.length === 0 ? (
@@ -58,7 +62,7 @@ export const CartDialog = () => {
                   />
 
                   <div className="flex-1">
-                    <h3 className="font-medium">{item.name}</h3>
+                    <h3 className="font-medium">{item?.title}</h3>
                     <p className="text-sm text-gray-500">
                       ${(item.price || 0).toFixed(2)}
                     </p>
@@ -94,7 +98,7 @@ export const CartDialog = () => {
               Total: ${(total || 0).toFixed(2)}
             </div>
             <button
-              className="bg-black hover:bg-gray-800 px-4 py-2 w-3/4 text-white rounded"
+              className="bg-black hover:bg-gray-700 px-4 py-2 w-3/4 text-white rounded"
               onClick={handleAddToCart}
             >
               Add to Cart

@@ -1,8 +1,34 @@
-import { ProfileMenuItems } from "@/Profile/ProfileMenuItems";
+import { getAuth, signOut } from "firebase/auth";
+
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { ProfileMenuItems } from "@/Profile/ProfileMenuItems";
+
 
 export const Avatar = ({ img }) => {
+  // const [user, setUser] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [error, setError] = useState(null);
+
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  const navigate = useNavigate();
+
+  const handleSignout = async () => {
+    try {
+      await signOut(auth);
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+      setError("Error Sigining Out");
+    }
+  };
+
+  if (!user) {
+  return null
+  }
 
   return (
     <div className="relative">
@@ -25,14 +51,14 @@ export const Avatar = ({ img }) => {
               alt="avatar"
             />
             <div>
-              <h3 className="font-bold font-kumbh">Oyeleke Victor</h3>
-              <p className="text-sm text-blue-darkGrayish">
-                victor123@gmail.com
-              </p>
+              <h3 className="font-bold font-kumbh">
+                {user.displayName ? user.displayName.toUpperCase() : "User"}
+              </h3>
+              <p className="text-sm text-blue-darkGrayish">{user.email}</p>
             </div>
           </div>
           <div className=" py-1">
-            {ProfileMenuItems.map((item, index) => (
+            {ProfileMenuItems(handleSignout, navigate).map((item, index) => (
               <div
                 key={index}
                 onClick={item.action}
