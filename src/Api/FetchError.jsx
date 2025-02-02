@@ -13,7 +13,7 @@ export const FetchError = ({ error, isHome }) => {
           ) : (
             <Link
               to="/"
-              className="inline-flex items-center gap-2 bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-400 transition-colors"
+              className="inline-flex items-center gap-2 bg-orange-600 text-white px-6 py-3 rounded-lg transition-colors hover:bg-orange-400"
             >
               <HomeIcon className="w-5 h-5" />
               Return Home

@@ -47,7 +47,7 @@ export const WomenCategory = () => {
       {isLoading ? (
         <LoadingSpinner />
       ) : (
-        <div className="grid grid-cols-3 gap-4 p-8">
+        <div className="grid grid-cols-2 gap-4 p-8 lg:grid-cols-3">
           {womenProducts.map((product) => (
             <ProductItems product={product} key={product.id} />
           ))}

@@ -51,7 +51,7 @@ export const MenCategory = () => {
       <h1 className="font-kumbh font-bold border-b text-xl text-center tracking-wide capitalize p-8">
         {category}
       </h1>
-      <div className="grid grid-cols-3 gap-4 p-8">
+      <div className="grid grid-cols-2 gap-3 p-8 lg:grid-cols-3">
         {mensProduct.map((product) => (
           <ProductItems product={product} key={product.id} />
         ))}

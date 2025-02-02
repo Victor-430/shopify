@@ -5,29 +5,41 @@ import { Heart, HomeIcon } from "lucide-react";
 import { AddToCart } from "./AddToCart";
 
 import { useWishlist } from "./WishlistProvider";
+import { LazyImage } from "./LazyImage";
 
 export const ProductItems = ({ product }) => {
   const { toogleWishItem, isItemInWishlist } = useWishlist();
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
   const isLiked = isItemInWishlist(product?.id);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   const navigate = useNavigate();
 
-  const handleProductClick = () => {
+  const handleProductClick = async () => {
     try {
-      setLoading(true);
-      if (!product || !product.title || !product.price) {
-        setError("Error Fetching Product");
+      if (!product.id || !product.title || !product.price) {
+        setError("Invalid product data");
         return;
       }
-      navigate(`/products/${product?.id}`);
+      setIsNavigating(true);
+      await navigate(`/products/${product?.id}`);
     } catch (error) {
-      console.error(`Error fetching product`, error);
-      setError("Error fetching product");
+      console.error("Navigation error:", error);
+      setError("Failed to view product details");
     } finally {
-      setTimeout(() => setLoading(!loading), 2000);
+      setIsNavigating(false);
     }
+  };
+
+  const handleLikeClick = (e) => {
+    e.stopPropagation();
+    if (!product?.id) return;
+    toogleWishItem({
+      id: product?.id,
+      images: product?.images,
+      price: product?.price,
+      title: product?.title,
+    });
   };
 
   if (error) {
@@ -39,7 +51,7 @@ export const ProductItems = ({ product }) => {
             <p className="text-gray-400 text-xl ">Please try again</p>
             <Link
               to="/"
-              className="inline-flex items-center gap-2 bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-400 transition-colors"
+              className="inline-flex items-center gap-2 bg-orange-600 text-white px-6 py-3 rounded-lg transition-colors hover:bg-orange-400"
             >
               <HomeIcon className="w-5 h-5" />
               Return Home
@@ -50,31 +62,28 @@ export const ProductItems = ({ product }) => {
     );
   }
 
-  const handleLikeClick = (e) => {
-    e.stopPropagation();
-    toogleWishItem({
-      id: product?.id,
-      images: product?.images,
-      price: product?.price,
-      title: product?.title,
-    });
-  };
-
   return (
-    <div className=" w-[1/2] p-4 bg-gray-100 rounded-lg mt-4 hover:shadow-md hover:shadow-gray-300 md:w-[1/4]">
-      <div onClick={handleProductClick}>
-        <img
-          className="w-[400px] h-[200px] lg:h-[300px]"
-          src={product?.images[0]}
+    <div className=" w-[1/2] p-4 bg-gray-100 rounded-lg mt-4 transition-all hover:shadow-md hover:shadow-gray-300 md:w-[1/4]">
+      <div
+        onClick={handleProductClick}
+        className={`cursor-pointer ${isNavigating ? "opacity-50" : ""}`}
+      >
+        <LazyImage
+          src={product?.images?.[0]}
+          alt={product?.title}
+          className="w-full h-[200px] object-cover rounded-md lg:h-[300px]"
         />
 
         <div className="font-kumbh text-base ">
           <h3 className="font-semibold mb-4 sm:text-xl">{product?.title}</h3>
           <span className="flex align-center justify-between">
-            <p className="flex font-medium mb-2 sm:text-lg">
+            <h3 className="font-semibold mb-4 sm:text-xl line-clamp-2">
               ${product?.price}
-            </p>
-            <button>
+            </h3>
+            <button
+              className="p-2rounded-full transition-colors hover:bg-gray-200"
+              disabled={isNavigating}
+            >
               <div
                 aria-label={
                   isLiked ? "Remove from wishlist" : "Add to wishlist"
@@ -93,7 +102,7 @@ export const ProductItems = ({ product }) => {
       </div>
       <AddToCart
         id={product?.id}
-        image={product?.images[0]}
+        image={product?.images?.[0]}
         price={product?.price}
         title={product?.title}
       />

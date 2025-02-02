@@ -100,10 +100,6 @@ export const Payment = () => {
 
     setIsLoading(true);
     try {
-      toast({
-        title: "Order Successful",
-        description: "Thank ypu for your purchase",
-      });
       await new Promise((resolve) => setTimeout(resolve, 2000));
       clearCart();
       navigate("/checkout-success");
@@ -132,7 +128,7 @@ export const Payment = () => {
           <div className="border-b border-gray-200 p-6">
             <button
               onClick={handleBackToCart}
-              className="flex items-center text-gray-600 hover:text-gray-900 mb-4"
+              className="flex items-center text-gray-600 mb-4 hover:text-gray-900"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Cart
@@ -304,7 +300,7 @@ export const Payment = () => {
             <button
               onClick={handlePayment}
               disabled={isLoading}
-              className="relative w-full bg-orange-500 text-white py-4 px-6 rounded-lg hover:bg-orange-400 transition-colors font-medium"
+              className="relative w-full bg-orange-500 text-white py-4 px-6 rounded-lg font-medium hover:bg-orange-400 transition-colors"
             >
               {isLoading ? (
                 <span className="visible">Processing ...</span>

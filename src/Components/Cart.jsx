@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import deleteIcon from "../Assets/img/icon-delete.svg";
@@ -13,6 +13,7 @@ export const Cart = ({ img }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const menuRef = useRef(null);
+  const buttonRef = useRef(null);
   const { cartItems = [], removeFromCart, total, clearCart } = useCart();
 
   const { toast } = useToast();
@@ -20,27 +21,65 @@ export const Cart = ({ img }) => {
 
   console.log(cartItems);
 
-  const handleCartNavigation = async (productId) => {
-    try {
-      setIsLoading(true);
-      navigate(`/products/${productId}`);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
+  const itemCount = useMemo(
+    () =>
+      (cartItems ?? []).reduce(
+        (total, item) => total + (item.quantity || 0),
+        0
+      ),
+
+    [cartItems]
+  );
+
+  const handleButtonClick = (e) => {
+    e.stopPropagation();
+    setIsOpen(!isOpen);
   };
+
+  const handleCartNavigation = useCallback(
+    async (e, productId) => {
+      e.stopPropagation();
+      try {
+        setIsLoading(true);
+        navigate(`/products/${productId}`);
+      } catch (error) {
+        console.error(error);
+        toast({
+          title: "Error",
+          description: "Failed to navigate to product. Please try again",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [navigate, toast]
+  );
+
+  const handleDeleteItem = useCallback(
+    (e, itemId) => {
+      e.stopPropagation();
+      console.log(removeFromCart(itemId));
+    },
+    [removeFromCart]
+  );
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(e.target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(e.target)
+      ) {
         setIsOpen(false);
       }
     };
     if (isOpen) {
       document.addEventListener("mousedown", handleOutsideClick);
+      return () =>
+        document.removeEventListener("mousedown", handleOutsideClick);
     }
-    return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, [isOpen]);
 
   const handleCheckout = async () => {
@@ -71,20 +110,13 @@ export const Cart = ({ img }) => {
     }
   };
 
-  const itemCount = cartItems.reduce(
-    (total, item) => total + (item.quantity || 0),
-    0
-  );
-
   return (
     <div className="">
       <Button
+        ref={buttonRef}
         variant="ghost"
-        className="relative p-2 hover:bg-gray-100   rounded-full"
-        onClick={(e) => {
-          e.stopPropagation();
-          setIsOpen(!isOpen);
-        }}
+        className="relative p-2 rounded-full hover:bg-gray-100"
+        onClick={handleButtonClick}
       >
         <img src={img} alt="cart" />
         {itemCount > 0 && (
@@ -98,13 +130,18 @@ export const Cart = ({ img }) => {
       </Button>
 
       {isOpen && (
-        <div className=" mt-6 p-2 sm:mt-10 w-full sm:w-[3/4] md:w-[26.5rem] right-0 absolute bg-transparent  ">
+        <div className=" mt-6 p-2 w-full right-0 absolute bg-transparent  sm:mt-10 sm:w-[3/4] md:w-[26.5rem] ">
           <div
             ref={menuRef}
             className="bg-white rounded-lg shadow-lg z-50 border border-gray"
           >
-            <div className="p-4 border-b border-gray-200">
+            <div className="p-4 border-b border-gray-200 flex justify-between items-center">
               <h2 className="font-bold text-lg">Cart</h2>
+              {cartItems?.length > 0 && (
+                <Button variant="ghost" size="sm" onClick={() => clearCart()}>
+                  Clear All
+                </Button>
+              )}
             </div>
 
             <div className="max-h-[60vh] overflow-y-auto p-4">
@@ -116,7 +153,7 @@ export const Cart = ({ img }) => {
                 <div className="space-y-4">
                   {cartItems.map((item) => (
                     <div
-                      onClick={() => handleCartNavigation(item.id)}
+                      onClick={(e) => handleCartNavigation(e, item.id)}
                       key={item.id}
                       className="flex items-center border-b pb-4 gap-4 hover:bg-gray-200"
                     >
@@ -141,8 +178,8 @@ export const Cart = ({ img }) => {
                             )}
                           </h5>
                           <div
-                            className="cursor-pointer ml-2 p-1 text-orange-600 hover:text-gray-100 rounded"
-                            onClick={() => removeFromCart(item.id)}
+                            className="cursor-pointer ml-2 p-1 rounded text-orange-600 hover:text-gray-100"
+                            onClick={(e) => handleDeleteItem(e, item.id)}
                           >
                             <img
                               className="text-right"
@@ -159,7 +196,7 @@ export const Cart = ({ img }) => {
             </div>
 
             <Button
-              className="transition-colors font-kumbh bg-orange-500 hover:bg-orange-400 font-bold mb-4 mx-5 text-md rounded-lg  w-[90%]"
+              className="font-bold mb-4 mx-5 text-md rounded-lg w-[90%] transition-colors font-kumbh bg-orange-500 hover:bg-orange-400"
               onClick={handleCheckout}
               disabled={isLoading}
             >

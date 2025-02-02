@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CheckCircle } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 export const CheckoutSucess = () => {
   const navigate = useNavigate();
@@ -11,6 +12,11 @@ export const CheckoutSucess = () => {
       setCountDown((prev) => {
         if (prev <= 1) {
           navigate("/");
+          toast({
+            title: "Order Successful",
+            description: "Thank you for your purchase",
+            className: "bg-black text-white font-kumbh hover:bg-black/50",
+          });
           return 0;
         }
         return prev - 1;

@@ -24,11 +24,21 @@
 
 import { auth } from "../Config/Firebase";
 import {
+  fetchSignInMethodsForEmail,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   updateProfile,
   sendPasswordResetEmail,
 } from "firebase/auth";
+
+import {
+  getFirestore,
+  getDocs,
+  where,
+  query,
+  collection,
+  addDoc,
+} from "firebase/firestore";
 
 import { useState } from "react";
 import { Lock, User, Mail } from "lucide-react";
@@ -45,9 +55,27 @@ export const Login = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  const db = getFirestore();
+
+  // check if username exists
+  const checkUsernameExists = async (username) => {
+    const usersRef = collection(db, "users");
+    const q = query(usersRef, where("username", "==", username.toLowerCase()));
+    const querySnapshot = await getDocs(q);
+    return !querySnapshot.empty;
+  };
+
   const handleForgotPassword = async (e) => {
     e.preventDefault();
     try {
+      const signInMethods = await fetchSignInMethodsForEmail(
+        auth,
+        formData.email
+      );
+      if (signInMethods === 0) {
+        setError("No account exists with this email address");
+        return;
+      }
       await sendPasswordResetEmail(auth, formData.email);
       setError("Password reset has been sent to email");
     } catch (error) {
@@ -79,13 +107,37 @@ export const Login = () => {
 
         navigate("/");
       } else {
+        // usernamme length validation
+        if (formData.username.length < 7 || formData.username.length > 14) {
+          setError("username must be between 7 and 14 characters");
+        }
+
+        // verify username
+        const verifyUsername = await checkUsernameExists(formData.username);
+        if (verifyUsername) {
+          setError("username already taken");
+          return;
+        }
+
         // Registration
         const { user } = await createUserWithEmailAndPassword(
           auth,
           formData.email,
           formData.password
         );
+
+        // update profile
         await updateProfile(user, { displayName: formData.username });
+
+        //store username in firbase
+        const usersRef = collection(db, "users");
+        await addDoc(usersRef, {
+          uid: user.uid,
+          username: formData.username.toLowerCase(),
+          email: formData.email,
+          createddAt: new Date(),
+        });
+
         navigate("/");
       }
     } catch (error) {
@@ -187,6 +239,9 @@ export const Login = () => {
                   className="w-full pl-10 p-3 bg-white/50 backdrop-blur-sm border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
+                <p className="text-sm text-gray-500 mt-1">
+                  Username must be between 7 and 14 characters
+                </p>
               </div>
             )}
 

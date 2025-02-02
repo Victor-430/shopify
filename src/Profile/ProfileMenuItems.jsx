@@ -8,7 +8,7 @@ import {
   CreditCard,
 } from "lucide-react";
 
-export const ProfileMenuItems =(handleSignout,navigate) => [
+export const ProfileMenuItems = (handleSignout, navigate) => [
   {
     icon: <User className="mr-2 h-4 w-4" />,
     text: "Profile",

@@ -64,7 +64,7 @@ export const MenCollections = () => {
               className=" w-2/4 bg-gray-100 py-6 px-4 rounded-lg flex justify-between items-center hover:bg-gray-200"
               key={index}
             >
-              <p className="font-kumbh capitalize tracking-wide  ">{product}</p>
+              <p className="font-kumbh capitalize tracking-wide">{product}</p>
               <ChevronRight />
             </div>
           ))}

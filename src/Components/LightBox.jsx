@@ -28,13 +28,13 @@ export const LightBox = ({ images }) => {
           onClick={() => setIsZoomed(true)}
         >
           <img
-            className="sm:aspect-square aspect-[5/4] rounded-none w-full object-cover sm:rounded-2xl"
+            className="aspect-[5/4] rounded-none w-full object-cover sm:aspect-square sm:rounded-2xl"
             src={selectedImage}
             alt="Selected product"
           />
         </div>
         {/* Mobile Navigation Buttons */}
-        <div className="sm:hidden absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-4">
+        <div className="top-1/2 -translate-y-1/2 w-full flex justify-between px-4 sm:hidden absolute">
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -56,7 +56,7 @@ export const LightBox = ({ images }) => {
         </div>
       </div>
       {/* Thumbnails Container */}
-      <div className="grid grid-cols-4 gap-4 max-sm:hidden  sm:mt-8">
+      <div className="grid-cols-4 gap-4 hidden sm:grid sm:mt-8">
         {images?.map((img, index) => (
           <button
             key={index}
@@ -86,7 +86,7 @@ export const LightBox = ({ images }) => {
       {/* Zoom Overlay */}
       {isZoomed && (
         <div
-          className="max-sm:hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center"
+          className="hidden fixed inset-0 bg-black/80 z-50 items-center justify-center sm:flex"
           onClick={() => setIsZoomed(false)}
         >
           <button
@@ -114,7 +114,7 @@ export const LightBox = ({ images }) => {
                 e.stopPropagation();
                 navigateImage("prev");
               }}
-              className=" absolute -left-3 text-white/75 hover:text-white p-2 rounded-full bg-white hover:bg-orange-400"
+              className=" absolute -left-3 text-white/75 p-2 rounded-full bg-whitehover:text-white hover:bg-orange-400"
             >
               <img src={PrevBtn} alt="previous" />
             </button>
@@ -124,7 +124,7 @@ export const LightBox = ({ images }) => {
                 e.stopPropagation();
                 navigateImage("next");
               }}
-              className="absolute -right-3 text-white/75 hover:text-white p-2 rounded-full bg-white hover:bg-orange-400"
+              className="absolute -right-3 text-white/75 p-2 rounded-full bg-white hover:text-white hover:bg-orange-400"
             >
               <img src={NextBtn} alt="previous" sizes={24} />
             </button>
@@ -146,11 +146,7 @@ export const LightBox = ({ images }) => {
                     : "opacity-50 hover:opacity-100"
                 }`}
               >
-                <img
-                  className="w-full h-full object-cover"
-                  src={img}
-                  // alt={thumb.alt}
-                />
+                <img className="w-full h-full object-cover" src={img} />
               </button>
             ))}
           </div>

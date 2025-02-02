@@ -51,11 +51,7 @@ export const ProtectedRoute = ({ children }) => {
   }, [auth]);
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <LoadingSpinner />
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   if (error) {
