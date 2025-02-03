@@ -1,6 +1,6 @@
-import { categoryList } from "@/Api";
-import { FetchError } from "@/Api/FetchError";
-import { LoadingSpinner } from "@/Components/LoadingSpinner";
+import { categoryList } from "../Api";
+import { FetchError } from "../Api/FetchError";
+import { LoadingSpinner } from "../Components/LoadingSpinner";
 import { ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -28,7 +28,7 @@ export const WomenCollection = () => {
         const filterCategory = data.filter((category) =>
           category.startsWith("womens-")
         );
-        console.log(filterCategory);
+
         setWomenCategory(filterCategory);
       } catch (error) {
         console.error(error);

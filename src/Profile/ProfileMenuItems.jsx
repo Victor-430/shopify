@@ -28,7 +28,6 @@ export const ProfileMenuItems = (handleSignout, navigate) => [
     text: "Wishlist",
     action: () => {
       navigate("/wishList");
-      console.log("View Wishlist");
     },
   },
   {
@@ -57,7 +56,6 @@ export const ProfileMenuItems = (handleSignout, navigate) => [
     text: "Log Out",
     action: () => {
       handleSignout();
-      console.log("Log0ut");
     },
   },
 ];

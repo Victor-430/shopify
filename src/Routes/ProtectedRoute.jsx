@@ -1,34 +1,7 @@
-// import { getAuth } from "firebase/auth";
-
-// import { useState } from "react";
-
-// import { LoadingSpinner } from "@/Components/LoadingSpinner";
-// import { Navigate } from "react-router-dom";
-
-// export const ProtectedRoute = ({ children }) => {
-//   const [isLoading, setIsLoading] = useState(true);
-//   const auth = getAuth();
-//   const user = auth.currentUser;
-
-//   if (isLoading) {
-//     setIsLoading(false);
-//     return (
-//       <div className="flex items-center justify-center min-h-screen">
-//         <LoadingSpinner />;
-//       </div>
-//     );
-//   }
-
-//   if (!user) {
-//     return <Navigate to="/login" replace />;
-//   }
-//   return children;
-// };
-
 import { getAuth } from "firebase/auth";
-import { useState, useEffect } from "react"; // Added useEffect
+import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import { LoadingSpinner } from "@/Components/LoadingSpinner";
+import { LoadingSpinner } from "../Components/LoadingSpinner";
 
 export const ProtectedRoute = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);

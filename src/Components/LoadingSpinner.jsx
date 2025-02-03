@@ -1,10 +1,5 @@
 import ClipLoader from "react-spinners/ClipLoader";
 
-// const overRide = {
-//   display: "block",
-//   margin: "100px auto",
-// };
-
 export const LoadingSpinner = ({ loading }) => {
   return (
     <div className="min-h-screen flex flex-col">

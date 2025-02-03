@@ -3,8 +3,8 @@ import { useState } from "react";
 import { CreditCard, Lock, AlertCircle, ArrowLeft } from "lucide-react";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
 
-import { useToast } from "@/hooks/use-toast";
-import { useCart } from "@/Components/CartProvider";
+import { useToast } from "../hooks/use-toast";
+import { useCart } from "../Components/CartProvider";
 
 export const Payment = () => {
   const [isLoading, setIsLoading] = useState(false);

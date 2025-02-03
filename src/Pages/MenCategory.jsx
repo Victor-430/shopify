@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { categoryProducts } from "@/Api";
-import { FetchError } from "@/Api/FetchError";
+import { categoryProducts } from "../Api";
+import { FetchError } from "../Api/FetchError";
 
-import { ProductItems } from "@/Components/ProductItems";
-import { LoadingSpinner } from "@/Components/LoadingSpinner";
+import { ProductItems } from "../Components/ProductItems";
+import { LoadingSpinner } from "../Components/LoadingSpinner";
 
 export const MenCategory = () => {
   const [mensProduct, setMensProduct] = useState([]);
@@ -13,8 +13,6 @@ export const MenCategory = () => {
   const [error, setError] = useState(null);
 
   const { category } = useParams();
-
-  console.log(category);
 
   useEffect(() => {
     const fetchMenProduct = async () => {
@@ -26,7 +24,6 @@ export const MenCategory = () => {
           return;
         }
         setMensProduct(data);
-        console.log(data);
       } catch (error) {
         setError(`Failed to load products for ${category}. Please try again.`);
         console.error(`An error occured : ${error}`);

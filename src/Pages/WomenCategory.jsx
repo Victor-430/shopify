@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { categoryProducts } from "@/Api";
-import { FetchError } from "@/Api/FetchError";
+import { categoryProducts } from "../Api";
+import { FetchError } from "../Api/FetchError";
 
-import { ProductItems } from "@/Components/ProductItems";
-import { LoadingSpinner } from "@/Components/LoadingSpinner";
+import { ProductItems } from "../Components/ProductItems";
+import { LoadingSpinner } from "../Components/LoadingSpinner";
 
 export const WomenCategory = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -25,7 +25,6 @@ export const WomenCategory = () => {
           return;
         }
         setWomenProducts(data);
-        console.log(data);
       };
 
       fetchWomenProduct();

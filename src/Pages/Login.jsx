@@ -1,27 +1,3 @@
-// import { initializeApp } from "firebase/app";
-// import { getAnalytics } from "firebase/analytics";
-// import {
-//   getAuth,
-//   signInWithEmailAndPassword,
-//   createUserWithEmailAndPassword,
-//   updateProfile,
-// } from "firebase/auth";
-
-// const firebaseConfig = {
-//   apiKey: "AIzaSyAxXjyOSd38yVzLYDWhaBKelE2ZB2YmBoI",
-//   authDomain: "shopify-412cd.firebaseapp.com",
-//   projectId: "shopify-412cd",
-//   storageBucket: "shopify-412cd.firebasestorage.app",
-//   messagingSenderId: "228304121055",
-//   appId: "1:228304121055:web:bdef4998c0a9631aec4d6a",
-//   measurementId: "G-2MYY4PMVGP",
-// };
-
-// // Initialize Firebase
-// const app = initializeApp(firebaseConfig);
-// const auth = getAuth(app);
-// const analytics = getAnalytics(app);
-
 import { auth } from "../Config/Firebase";
 import {
   fetchSignInMethodsForEmail,

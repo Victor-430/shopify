@@ -81,7 +81,7 @@ export const ProductItems = ({ product }) => {
               ${product?.price}
             </h3>
             <button
-              className="p-2rounded-full transition-colors hover:bg-gray-200"
+              className="p-2 rounded-full transition-colors hover:bg-gray-200"
               disabled={isNavigating}
             >
               <div

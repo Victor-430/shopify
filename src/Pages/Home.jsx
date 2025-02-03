@@ -1,7 +1,7 @@
-import { allproducts, categoryList } from "@/Api";
-import { FetchError } from "@/Api/FetchError";
-import { LoadingSpinner } from "@/Components/LoadingSpinner";
-import { ProductItems } from "@/Components/ProductItems";
+import { allproducts, categoryList } from "../Api";
+import { FetchError } from "../Api/FetchError";
+import { LoadingSpinner } from "../Components/LoadingSpinner";
+import { ProductItems } from "../Components/ProductItems";
 import { useState, useEffect } from "react";
 
 export const Home = () => {
@@ -14,7 +14,6 @@ export const Home = () => {
     try {
       setIsLoading(true);
       const data = await allproducts();
-      console.log(data);
       setProducts(data);
 
       if (!data) {

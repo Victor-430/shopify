@@ -19,7 +19,6 @@ const loadFromLocalStorage = () => {
 
 export const WishlistProvider = ({ children }) => {
   const [wishItems, setWishItems] = useState(loadFromLocalStorage);
-  console.log({ wishItems });
 
   useEffect(() => {
     saveToLocalStorage(wishItems);

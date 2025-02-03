@@ -1,4 +1,4 @@
-import { toast } from "@/hooks/use-toast";
+import { toast } from "../hooks/use-toast";
 import cartIcon from "../Assets/img/icon-cart.svg";
 import { useCart } from "./CartProvider";
 
@@ -59,7 +59,7 @@ export const AddToCart = ({
         onClick={handleAddToCart}
       >
         <img
-          className="flex items-center w-4 h-4 text-white"
+          className="flex items-center w-4 h-4"
           src={cartIcon}
           alt="addToCart"
         />

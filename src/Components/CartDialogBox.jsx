@@ -6,7 +6,7 @@ import {
   DialogFooter,
   DialogDescription,
 } from "./ui/dialog";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "../hooks/use-toast";
 import { useCart } from "./CartProvider";
 import minusIcon from "../Assets/img/icon-minus.svg";
 import plusIcon from "../Assets/img/icon-plus.svg";

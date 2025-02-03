@@ -1,22 +1,22 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import { NavBar } from "@/Components/NavBar";
+import { NavBar } from "../Components/NavBar";
 import { Home } from "../Pages/Home";
 import { ErrorPage } from "../Pages/ErrorPage";
-import { PageNotFound } from "@/Pages/PageNotFound";
-import { Collections } from "@/Pages/Collections";
-import { Payment } from "@/Pages/Payment";
-import { CheckoutSucess } from "@/Pages/CheckoutSucess";
+import { PageNotFound } from "../Pages/PageNotFound";
+import { Collections } from "../Pages/Collections";
+import { Payment } from "../Pages/Payment";
+import { CheckoutSucess } from "../Pages/CheckoutSucess";
 import { Login } from "../Pages/Login";
 import { ProtectedRoute } from "./ProtectedRoute";
-import { MenCollections } from "@/Pages/MenCollections";
-import { ProductDescription } from "@/Components/ProductDescription";
-import { Category } from "@/Pages/Category";
-import { MenCategory } from "@/Pages/MenCategory";
+import { MenCollections } from "../Pages/MenCollections";
+import { ProductDescription } from "../Components/ProductDescription";
+import { Category } from "../Pages/Category";
+import { MenCategory } from "../Pages/MenCategory";
 import { WomenCategory } from "../Pages/WomenCategory";
 import { WomenCollection } from "../Pages/WomenCollection";
-import { WishListItems } from "@/Components/WishListItems";
-import { About } from "@/Pages/About";
+import { WishListItems } from "../Components/WishListItems";
+import { About } from "../Pages/About";
 
 export const router = createBrowserRouter(
   [

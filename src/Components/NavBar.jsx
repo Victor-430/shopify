@@ -55,7 +55,7 @@ export const NavBar = () => {
                 </NavLink>
 
                 {/* Navigation Links */}
-                <div className="hidden tems-center font-kumbh font-normal sm:flex sm:space-x-4 space-x-8">
+                <div className="hidden items-center font-kumbh font-normal sm:flex sm:space-x-4 space-x-8">
                   <NavLink className={activeNav} to="/collections">
                     Collections
                   </NavLink>

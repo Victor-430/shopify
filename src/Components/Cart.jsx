@@ -6,8 +6,9 @@ import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 
 import { useCart } from "./CartProvider";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "../hooks/use-toast";
 import { LoadingSpinner } from "./LoadingSpinner";
+import { BodyScroll } from "./BodyScroll";
 
 export const Cart = ({ img }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,8 +19,6 @@ export const Cart = ({ img }) => {
 
   const { toast } = useToast();
   const navigate = useNavigate();
-
-  console.log(cartItems);
 
   const itemCount = useMemo(
     () =>
@@ -59,7 +58,7 @@ export const Cart = ({ img }) => {
   const handleDeleteItem = useCallback(
     (e, itemId) => {
       e.stopPropagation();
-      console.log(removeFromCart(itemId));
+      removeFromCart(itemId);
     },
     [removeFromCart]
   );
@@ -103,7 +102,7 @@ export const Cart = ({ img }) => {
         description: "Failed to proceed to checkout. Please try again",
         variant: "destructive",
       });
-      console.log(error);
+      console.error(error);
     } finally {
       setIsLoading(false);
       setIsOpen(false);
@@ -111,7 +110,8 @@ export const Cart = ({ img }) => {
   };
 
   return (
-    <div className="">
+    <div>
+      <BodyScroll isOpen={isOpen} />
       <Button
         ref={buttonRef}
         variant="ghost"
@@ -128,7 +128,6 @@ export const Cart = ({ img }) => {
           </Badge>
         )}
       </Button>
-
       {isOpen && (
         <div className=" mt-6 p-2 w-full right-0 absolute bg-transparent  sm:mt-10 sm:w-[3/4] md:w-[26.5rem] ">
           <div

@@ -4,9 +4,9 @@ import { useParams } from "react-router-dom";
 import { AddToCart } from "./AddToCart";
 import { LightBox } from "./LightBox";
 
-import { singleProduct } from "@/Api";
+import { singleProduct } from "../Api";
 import { LoadingSpinner } from "./LoadingSpinner";
-import { FetchError } from "@/Api/FetchError";
+import { FetchError } from "../Api/FetchError";
 import { CartCounter } from "./CartCounter";
 
 export const ProductDescription = () => {
@@ -22,7 +22,6 @@ export const ProductDescription = () => {
       try {
         setIsLoading(true);
         const data = await singleProduct(id);
-        console.log("Fetched data:", data);
 
         if (!data || !data.title || !data.price || !data.images) {
           setError("Product Not found");
@@ -87,7 +86,7 @@ export const ProductDescription = () => {
                 />
                 <AddToCart
                   id={product?.id}
-                  images={product?.images?.[0]}
+                  images={product?.images}
                   price={product?.price}
                   title={product?.title}
                   quantity={quantity}

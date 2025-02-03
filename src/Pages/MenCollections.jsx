@@ -1,6 +1,6 @@
-import { categoryList } from "@/Api";
-import { FetchError } from "@/Api/FetchError";
-import { LoadingSpinner } from "@/Components/LoadingSpinner";
+import { categoryList } from "../Api";
+import { FetchError } from "../Api/FetchError";
+import { LoadingSpinner } from "../Components/LoadingSpinner";
 import { ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -30,7 +30,6 @@ export const MenCollections = () => {
 
       setMenProducts(mensCategories);
 
-      console.log(mensCategories);
       return mensCategories;
     } catch (error) {
       console.error(error);

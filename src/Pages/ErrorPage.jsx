@@ -1,6 +1,6 @@
 import { useRouteError, Link } from "react-router-dom";
 import { AlertCircle } from "lucide-react";
-import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { Alert, AlertTitle, AlertDescription } from "../Components/ui/alert";
 
 export const ErrorPage = () => {
   const error = useRouteError();

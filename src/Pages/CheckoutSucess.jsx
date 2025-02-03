@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CheckCircle } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "../hooks/use-toast";
 
 export const CheckoutSucess = () => {
   const navigate = useNavigate();

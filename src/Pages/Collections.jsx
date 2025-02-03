@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { ChevronRight } from "lucide-react";
-import { LoadingSpinner } from "@/Components/LoadingSpinner";
-import { categoryList } from "@/Api";
-import { FetchError } from "@/Api/FetchError";
+import { LoadingSpinner } from "../Components/LoadingSpinner";
+import { categoryList } from "../Api";
+import { FetchError } from "../Api/FetchError";
 
 export const Collections = () => {
   const [category, setCategory] = useState([]);
@@ -26,7 +26,7 @@ export const Collections = () => {
         if (!data) {
           setError("Erorr fetching product(s)");
         }
-        console.log(data);
+
         setCategory(data);
       } catch (error) {
         console.error(error);
