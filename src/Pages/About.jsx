@@ -24,7 +24,7 @@ export const About = () => {
 
         <div className="flex justify-center space-x-6">
           <a
-            href="https://github.com/yourusername"
+            href="https://github.com/victor-430"
             target="_blank"
             rel="noopener noreferrer"
             className="text-orange-600 hover:text-gray-900 transition-colors"
@@ -33,7 +33,7 @@ export const About = () => {
             <Github className="w-6 h-6 " />
           </a>
           <a
-            href="https://linkedin.com/in/yourusername"
+            href="https://www.linkedin.com/in/victor-oyeleke-169827215"
             target="_blank"
             rel="noopener noreferrer"
             className="text-orange-600 hover:text-gray-900 transition-colors"
@@ -42,7 +42,7 @@ export const About = () => {
             <Linkedin className="w-6 h-6" />
           </a>
           <a
-            href="https://twitter.com/yourusername"
+            href="https://twitter.com/vencedorZest"
             target="_blank"
             rel="noopener noreferrer"
             className="text-orange-600 hover:text-gray-900 transition-colors"
