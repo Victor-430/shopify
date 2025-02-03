@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CheckCircle } from "lucide-react";
+// import { CheckCircle } from "lucide-react";
 import { toast } from "../hooks/use-toast";
+import { AnimatedSuccessCheck } from "../Components/AnimatedCheckout";
 
 export const CheckoutSucess = () => {
   const navigate = useNavigate();
@@ -28,8 +29,8 @@ export const CheckoutSucess = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="bg-white p-8 rounded-xl shadow-lg text-center max-w-md animate-fadeIn">
-        <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-          <CheckCircle className="w-12 h-12 text-green-500 animate-checkmark" />
+        <div className="flex justify-center mb-6">
+          <AnimatedSuccessCheck />
         </div>
         <h2 className="text-3xl font-semibold text-gray-800 mb-4">
           Payment Successful!

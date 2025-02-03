@@ -199,7 +199,7 @@ export const Cart = ({ img }) => {
               onClick={handleCheckout}
               disabled={isLoading}
             >
-              {isLoading ? <LoadingSpinner loading={isLoading} /> : "Checkout"}
+              {isLoading ? "please wait ..." : "Checkout"}
             </Button>
           </div>
         </div>

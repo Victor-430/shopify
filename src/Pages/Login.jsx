@@ -203,26 +203,28 @@ export const Login = () => {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {!isLogin && (
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
-                <input
-                  type="text"
-                  name="username"
-                  placeholder="Username"
-                  value={formData.username}
-                  onChange={handleChange}
-                  autoComplete="username"
-                  className="w-full pl-10 p-3 bg-white/50 backdrop-blur-sm border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
-                />
-                <p className="text-sm text-gray-500 mt-1">
+              <div>
+                <div className="relative flex items-center justify-center">
+                  <User className="absolute left-3 top-1/2  -translate-y-1/2 text-gray-500 pointer-events-none" />
+                  <input
+                    type="text"
+                    name="username"
+                    placeholder="Username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    autoComplete="username"
+                    className="w-full pl-10 p-3 bg-white/50 backdrop-blur-sm border border-white/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    required
+                  />
+                </div>
+                <p className="text-sm text-gray-500 mt-2">
                   Username must be between 7 and 14 characters
                 </p>
               </div>
             )}
 
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
               <input
                 type="email"
                 name="email"
@@ -236,7 +238,7 @@ export const Login = () => {
             </div>
 
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none" />
               <input
                 type="password"
                 name="password"
