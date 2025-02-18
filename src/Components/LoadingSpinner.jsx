@@ -10,7 +10,7 @@ export const LoadingSpinner = ({ loading }) => {
         <ClipLoader
           color="orange"
           loading={loading}
-          size={150}
+          size={80}
           aria-label="loading Spinner"
           data-testid="loader"
           speedmultipler={3}
