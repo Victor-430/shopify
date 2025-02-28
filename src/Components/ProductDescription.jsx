@@ -11,7 +11,7 @@ import { CartCounter } from "./CartCounter";
 
 export const ProductDescription = () => {
   const [product, setProduct] = useState(null);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
